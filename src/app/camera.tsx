@@ -28,6 +28,12 @@ export default function Camera() {
     setFacing(current => (current === 'back' ? 'front' : 'back'));
   }
 
+  async function takePhoto() {
+    console.log('take photo');
+    const photo = await camera.current?.takePictureAsync();
+    console.log(JSON.stringify(photo, null, 2));
+  }
+
   return (
     <View style={styles.container}>
       <CameraView ref={camera} style={styles.camera} facing={facing} />
