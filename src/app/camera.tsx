@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { useRef, useState } from 'react';
 import { ActivityIndicator, Button, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -36,7 +37,17 @@ export default function Camera() {
 
   return (
     <View style={styles.container}>
-      <CameraView ref={camera} style={styles.camera} facing={facing} />
+      <CameraView ref={camera} style={styles.camera} facing={facing}>
+        <View className='absolute bottom-0 w-full bg-transparent p-4 items-end'>
+          <Ionicons 
+            name="camera-reverse"
+            size={32}
+            color="white"
+            onPress={toggleCameraFacing}
+          />
+        </View>
+      </CameraView>
+
       {/* Footer */}
       <SafeAreaView edges={['bottom']} className='flex-row bg-transparent w-full p-4 justify-center items-center'>
         <Pressable className='bg-white rounded-full w-20 h-20' onPress={takePhoto} />
