@@ -1,10 +1,13 @@
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { useRef, useState } from 'react';
 import { ActivityIndicator, Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Camera() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
+
+  const camera = useRef<CameraView>(null);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -27,7 +30,7 @@ export default function Camera() {
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing} />
+      <CameraView ref={camera} style={styles.camera} facing={facing} />
       {/* Footer */}
       <SafeAreaView edges={['bottom']} className='flex-row bg-transparent w-full p-4 justify-center items-center'>
         <Pressable className='bg-white rounded-full w-20 h-20' onPress={takePhoto} />
