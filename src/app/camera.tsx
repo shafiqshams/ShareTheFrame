@@ -1,6 +1,6 @@
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
-import { useState } from 'react';
-import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Camera() {
   const [facing, setFacing] = useState<CameraType>('back');
@@ -33,6 +33,10 @@ export default function Camera() {
           <Text style={styles.text}>Flip Camera</Text>
         </TouchableOpacity>
       </View>
+      {/* Footer */}
+      <SafeAreaView edges={['bottom']} className='flex-row bg-transparent w-full p-4 justify-center items-center'>
+        <Pressable className='bg-white rounded-full w-20 h-20' onPress={takePhoto} />
+      </SafeAreaView>
     </View>
   );
 }
