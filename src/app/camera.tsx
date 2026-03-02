@@ -28,11 +28,6 @@ export default function Camera() {
   return (
     <View style={styles.container}>
       <CameraView style={styles.camera} facing={facing} />
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-          <Text style={styles.text}>Flip Camera</Text>
-        </TouchableOpacity>
-      </View>
       {/* Footer */}
       <SafeAreaView edges={['bottom']} className='flex-row bg-transparent w-full p-4 justify-center items-center'>
         <Pressable className='bg-white rounded-full w-20 h-20' onPress={takePhoto} />
