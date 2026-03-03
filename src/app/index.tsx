@@ -1,11 +1,11 @@
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 export default function Home() {
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-3xl font-bold text-white">Home</Text>
+    <View className="flex-1 justify-center items-center gap-4">
       <Link href="/camera" className="text-white">Open Camera</Link>
+      <Link href="/event" className="text-white">Open Event</Link>
     </View>
   );
 }
