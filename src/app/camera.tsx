@@ -1,11 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { useRef, useState } from 'react';
-import { ActivityIndicator, Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Button, PixelRatio, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { uploadToCloudinary } from '../lib/cloudinary';
 
 export default function Camera() {
+  const { width: windowWidth } = useWindowDimensions();
+  const pixelRatio = PixelRatio.get();
+  
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -32,12 +36,23 @@ export default function Camera() {
 
   async function takePhoto() {
     console.log('take photo');
-    const photo = await camera.current?.takePictureAsync();
-    console.log(JSON.stringify(photo, null, 2));
-
+    const photo = await camera.current?.takePictureAsync({
+      quality: 0.75,
+    });
+    
     if (!photo?.uri) return;
 
-    const result = await uploadToCloudinary(photo?.uri);
+    const context = ImageManipulator.manipulate(photo.uri);
+    const manipulatedResult = await context
+      .resize({ width: windowWidth * pixelRatio })
+      .renderAsync();
+
+    const savedImage = await manipulatedResult.saveAsync({
+      compress: 0.75,
+      format: SaveFormat.JPEG
+    });
+
+    const result = await uploadToCloudinary(savedImage.uri);
     console.log(JSON.stringify(result, null, 2));
   }
 
