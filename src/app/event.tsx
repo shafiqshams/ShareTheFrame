@@ -1,3 +1,4 @@
+import { artisticFilter } from "@cloudinary/url-gen/actions/effect";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { AdvancedImage } from "cloudinary-react-native";
 import { PixelRatio, Text, useWindowDimensions, View } from "react-native";
@@ -19,6 +20,7 @@ export default function Event() {
               .width(windowWidth * pixelRatio)
               .height(windowWidth * pixelRatio)
           )
+          .effect(artisticFilter("zorro"))
         } 
         className="w-full aspect-[3/4]"/>
     </View>
