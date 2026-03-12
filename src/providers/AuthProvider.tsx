@@ -22,25 +22,26 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    const signInIfNeeded = async () => {
-      const { data } = await supabase.auth.getSession();
+    // Initialize session check and sign in, if needed
+    const initializeAuth = async () => {
+      try {
+        const {
+          data: { session: currentSession },
+        } = await supabase.auth.getSession();
 
-      if (data.session) {
-        setSession(data.session);
-      }
-
-      if (!data.session) {
-        const { data, error } = await supabase.auth.signInAnonymously();
-
-        if (data.session) {
-          setSession(data.session);
+        if (currentSession) {
+          setSession(currentSession);
         } else {
-          console.error(error);
+          // No session exists, sign in anonymously
+          const { error } = await supabase.auth.signInAnonymously();
+          if (error) throw error;
         }
+      } catch (error) {
+        console.error("Authentication initialization failed", error);
       }
-    };
 
-    signInIfNeeded();
+      initializeAuth();
+    };
   }, []);
 
   return (
