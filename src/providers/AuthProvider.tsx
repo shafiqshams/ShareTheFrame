@@ -20,6 +20,7 @@ export const AuthContext = createContext<AuthContextType>({
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // Initialize session check and sign in, if needed
@@ -38,6 +39,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         }
       } catch (error) {
         console.error("Authentication initialization failed", error);
+      } finally {
+        setIsLoading(false);
       }
 
       initializeAuth();
