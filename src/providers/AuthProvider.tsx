@@ -11,11 +11,13 @@ import { supabase } from "../lib/supabase";
 type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   isAuthenticated: false,
+  isLoading: true,
 });
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
@@ -49,7 +51,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user: session?.user || null, isAuthenticated: !!session }}
+      value={{
+        user: session?.user || null,
+        isAuthenticated: !!session,
+        isLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>
