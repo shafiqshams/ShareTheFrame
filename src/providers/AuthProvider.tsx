@@ -25,6 +25,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setIsLoading(false);
+    });
+
     // Initialize session check and sign in, if needed
     const initializeAuth = async () => {
       try {
@@ -44,8 +51,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       } finally {
         setIsLoading(false);
       }
+    };
 
-      initializeAuth();
+    initializeAuth();
+
+    return () => {
+      subscription.unsubscribe();
     };
   }, []);
 
