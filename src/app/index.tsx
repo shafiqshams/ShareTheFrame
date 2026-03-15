@@ -4,12 +4,8 @@ import { View } from "react-native";
 import { supabase } from "../lib/supabase";
 
 export default function Home() {
-  useEffect(() => {
-    supabase
-      .from("events")
-      .select("*")
-      .then((data) => console.log(JSON.stringify(data, null, 2)));
-  }, []);
+  const { user, isAuthenticated } = useAuth();
+  console.log({ user, isAuthenticated });
   return (
     <View className="flex-1 justify-center items-center gap-4">
       <Link href="/camera" className="text-white">
