@@ -1,7 +1,6 @@
 import { Link } from "expo-router";
-import { useEffect } from "react";
 import { View } from "react-native";
-import { supabase } from "../lib/supabase";
+import { useAuth } from "../providers/AuthProvider";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
